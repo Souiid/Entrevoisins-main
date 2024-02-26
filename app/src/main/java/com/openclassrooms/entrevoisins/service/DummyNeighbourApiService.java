@@ -2,6 +2,8 @@ package com.openclassrooms.entrevoisins.service;
 
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,5 +37,15 @@ public class DummyNeighbourApiService implements  NeighbourApiService {
     @Override
     public void createNeighbour(Neighbour neighbour) {
         neighbours.add(neighbour);
+    }
+
+    @Override
+    public void updateNeighbours(Neighbour neighbour) {
+        for (int i = 0; i < neighbours.size(); i++) {
+            if (neighbours.get(i).equals(neighbour)) {
+                neighbours.set(i, neighbour);
+                break;
+            }
+        }
     }
 }

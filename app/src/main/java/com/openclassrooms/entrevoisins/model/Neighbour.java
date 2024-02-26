@@ -1,9 +1,11 @@
 package com.openclassrooms.entrevoisins.model;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import java.util.Objects;
 
@@ -30,6 +32,8 @@ public class Neighbour implements Parcelable {
     /** About me */
     private String aboutMe;
 
+    private Boolean isFavorite;
+
     /**
      * Constructor
      * @param id
@@ -37,13 +41,14 @@ public class Neighbour implements Parcelable {
      * @param avatarUrl
      */
     public Neighbour(long id, String name, String avatarUrl, String address,
-                     String phoneNumber, String aboutMe) {
+                     String phoneNumber, String aboutMe, Boolean isFavorite) {
         this.id = id;
         this.name = name;
         this.avatarUrl = avatarUrl;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.aboutMe = aboutMe;
+        this.isFavorite = isFavorite;
     }
 
     protected Neighbour(Parcel in) {
@@ -53,6 +58,9 @@ public class Neighbour implements Parcelable {
         address = in.readString();
         phoneNumber = in.readString();
         aboutMe = in.readString();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            isFavorite = in.readBoolean();
+        }
     }
 
     public static final Creator<Neighbour> CREATOR = new Creator<Neighbour>() {
@@ -111,6 +119,10 @@ public class Neighbour implements Parcelable {
         return aboutMe;
     }
 
+    public Boolean getIsFavorite() {return isFavorite;}
+
+    public void setIsFavorite(Boolean isFavorite) {this.isFavorite = isFavorite;}
+
     public void setAboutMe(String aboutMe) {
         this.aboutMe = aboutMe;
     }
@@ -133,6 +145,7 @@ public class Neighbour implements Parcelable {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeLong(id);
@@ -141,5 +154,6 @@ public class Neighbour implements Parcelable {
         dest.writeString(address);
         dest.writeString(phoneNumber);
         dest.writeString(aboutMe);
+        dest.writeBoolean(isFavorite);
     }
 }

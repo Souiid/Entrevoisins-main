@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FDFBFB"
+    android:rotationX="2"
+    android:id="@+id/neigbour_description"
     tools:context=".NeighbourDescriptionActivity">
 
     <RelativeLayout
@@ -16,6 +18,16 @@
             android:id="@+id/imageViewContent"
             android:layout_width="match_parent"
             android:layout_height="300dp">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_arrow"
+                android:elevation="20dp"
+                android:background="#00FF80AB"/>
 
             <ImageView
                 android:id="@+id/neighbourIV"
@@ -36,19 +48,6 @@
 
         </RelativeLayout>
 
-        <ImageButton
-            android:id="@+id/favoriteButton"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginTop="275dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:background="@color/lightGrey"
-
-            android:layout_marginEnd="30dp"
-            android:src="@drawable/ic_star_border_white_24dp"
-            app:tint="@color/yellow"/>
-
 
         <LinearLayout
             android:id="@+id/infosLL"
@@ -59,8 +58,9 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:background="@color/white"
-            android:elevation="16dp"
-            android:orientation="vertical">
+            android:elevation="8dp"
+            android:orientation="vertical"
+            android:translationY="4dp">
 
             <TextView
                 android:id="@+id/nameTV"
@@ -200,10 +200,21 @@
         </LinearLayout>
 
 
+        <ImageButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_above="@id/infosLL"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="-50dp"
+            android:background="@drawable/circle_button"
+            android:elevation="10dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_star_border_white_24dp"
+            app:tint="@color/yellow" />
+
     </RelativeLayout>
-
-
-
 
 
 </ScrollView>

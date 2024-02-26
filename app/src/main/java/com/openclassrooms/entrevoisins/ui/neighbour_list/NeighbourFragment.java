@@ -2,12 +2,14 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +26,8 @@ import com.openclassrooms.entrevoisins.utils.ItemClickSupport;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -32,14 +36,19 @@ public class NeighbourFragment extends Fragment {
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
-
+    private int position;
 
     /**
      * Create and return a new instance
      * @return @{@link NeighbourFragment}
      */
-    public static NeighbourFragment newInstance() {
+
+
+    public static NeighbourFragment newInstance(int position) {
         NeighbourFragment fragment = new NeighbourFragment();
+        Bundle args = new Bundle();
+        args.putInt("position", position);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -53,7 +62,8 @@ public class NeighbourFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_neighbour_list, container, false);
-        Context context = view.getContext();
+        Context context = view.getContext();;
+        position = getArguments().getInt("position", -1);
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
@@ -64,11 +74,19 @@ public class NeighbourFragment extends Fragment {
     /**
      * Init the List of neighbours
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initList() {
         mNeighbours = mApiService.getNeighbours();
-        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
+        List<Neighbour> favoriteNeighbours = new ArrayList<>(mNeighbours);
+        favoriteNeighbours.removeIf(neighbour -> !neighbour.getIsFavorite());
+        if (position == 0) {
+            mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
+        }else {
+            mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(favoriteNeighbours));
+        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
         super.onResume();
@@ -107,6 +125,8 @@ public class NeighbourFragment extends Fragment {
     @Subscribe
     public void onDeleteNeighbour(DeleteNeighbourEvent event) {
         mApiService.deleteNeighbour(event.neighbour);
-        initList();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            initList();
+        }
     }
 }
