@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
+public class  ListNeighbourPagerAdapter extends FragmentPagerAdapter {
 
     public ListNeighbourPagerAdapter(FragmentManager fm) {
         super(fm);

@@ -3,6 +3,7 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -42,4 +43,6 @@ public class ListNeighbourActivity extends AppCompatActivity {
     void addNeighbour() {
         AddNeighbourActivity.navigate(this);
     }
+
+
 }

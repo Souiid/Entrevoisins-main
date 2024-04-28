@@ -83,13 +83,13 @@ public class NeighboursListTest {
         onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
                 .perform(actionOnItemAtPosition(1, (ViewAction) new DeleteViewAction()));
         // Then : the number of element is 11
-        onView(allOf(withId(R.id.list_neighbours), isDisplayed())).check((ViewAssertion) withItemCount(ITEMS_COUNT-1));
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed())).check((ViewAssertion) withItemCount(ITEMS_COUNT - 1));
     }
 
     @Test
     public void myNeighbourList_clickAction_shouldDisplayDescription() {
         onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
-                 .perform(actionOnItemAtPosition(0, click()));
+                .perform(actionOnItemAtPosition(0, click()));
         onView(withId(R.id.neigbour_description)).check(matches(isDisplayed()));
     }
 
@@ -103,22 +103,16 @@ public class NeighboursListTest {
                 .check(matches(withText(neighbour.getName())));
     }
 
-   @Test
-   public void favoritesTab_ShowsOnlyFavorites() {
-       NeighbourApiService service = DI.getNeighbourApiService();
-       Neighbour neighbour = service.getNeighbours().get(0);
-       neighbour.setIsFavorite(true);
-       service.updateNeighbours(neighbour);
-       Neighbour neighbour2 = service.getNeighbours().get(1);
-       neighbour2.setIsFavorite(true);
-       service.updateNeighbours(neighbour2);
-       onView(withText("Favorites")).perform(click());
-       onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
-               .check(matches(isDisplayed()));
-       onView(withId(R.id.list_neighbours)).check(RecyclerViewItemCountAssertion.withItemCount(2));
+    @Test
+    public void favoritesTab_ShowsOnlyFavorites() {
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
+                .perform(actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.favoriteButton)).perform(click());
+        onView(withId(R.id.backButton)).perform(click());
+        onView(withText("Favorites")).perform(click());
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed()))
+                .check(matches(isDisplayed()));
 
+        onView(allOf(withId(R.id.list_neighbours), isDisplayed())).check(RecyclerViewItemCountAssertion.withItemCount(1));
     }
-
-
-
 }
