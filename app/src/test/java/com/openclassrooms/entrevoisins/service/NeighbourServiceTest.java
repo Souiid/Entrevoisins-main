@@ -11,6 +11,7 @@ import org.junit.runners.JUnit4;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThat;
@@ -34,6 +35,17 @@ public class NeighbourServiceTest {
         List<Neighbour> neighbours = service.getNeighbours();
         List<Neighbour> expectedNeighbours = DummyNeighbourGenerator.DUMMY_NEIGHBOURS;
         assertThat(neighbours, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedNeighbours.toArray()));
+    }
+
+    @Test
+    public void createNeighboursWithSuccess() {
+        int initialNeighbourCount = service.getNeighbours().size();
+        service.createNeighbour(new Neighbour(100, "John Doe",
+                "https://i.pravatar.cc/150?u=a042581f4e29026704b",
+                "Saint-Pierre-du-Mont ; 5km", "0975262536",
+                "Je suis un test", false));
+        int newNeighbourCount = service.getNeighbours().size();
+        assertEquals(initialNeighbourCount + 1, newNeighbourCount);
     }
 
     @Test
